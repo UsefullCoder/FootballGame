@@ -1,0 +1,48 @@
+// Create a canvas to display the game on
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = 500;
+canvas.height = 500;
+document.body.appendChild(canvas);
+
+// Create the ball object
+const ball = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: 20,
+  color: "red",
+  xSpeed: 5,
+  ySpeed: 5,
+};
+
+// Draw the ball on the canvas
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+  ctx.fillStyle = ball.color;
+  ctx.fill();
+  ctx.closePath();
+}
+
+// Move the ball on the canvas
+function moveBall() {
+  ball.x += ball.xSpeed;
+  ball.y += ball.ySpeed;
+  // Bounce the ball off the walls
+  if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+    ball.xSpeed = -ball.xSpeed;
+  }
+  if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+    ball.ySpeed = -ball.ySpeed;
+  }
+}
+
+// Animate the ball on the canvas
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBall();
+  moveBall();
+  requestAnimationFrame(animate);
+}
+
+animate();
